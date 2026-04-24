@@ -45,7 +45,7 @@ class AdminReportView extends Component
     public function render()
     {
         return view('livewire.admin-report-view')
-            ->layout('components.layouts.app', [
+            ->layout('layouts.app', [
                 'title' => 'Detail Laporan',
             ]);
     }

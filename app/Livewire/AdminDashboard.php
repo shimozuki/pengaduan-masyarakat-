@@ -26,7 +26,7 @@ class AdminDashboard extends Component
             'inProgress' => $inProgress,
             'resolved' => $resolved,
             'recentReports' => $recentReports,
-        ])->layout('components.layouts.app', [
+        ])->layout('layouts.app', [
             'title' => 'Admin Dashboard',
         ]);
     }

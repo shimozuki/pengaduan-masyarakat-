@@ -11,6 +11,7 @@ use App\Livewire\MyReports;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Livewire\Volt\Volt;
+use App\Livewire\AdminUsers;
 
 Route::get('/', LandingPage::class)->name('home');
 
@@ -32,14 +33,16 @@ Route::get('/dashboard', function () {
         : redirect()->route('my-reports');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,kepala_kelurahan'])->group(function () {
     Route::get('/', AdminDashboard::class)->name('dashboard');
     Route::get('/reports', AdminReports::class)->name('reports.index');
     Route::get('/reports/{report}', AdminReportView::class)->name('reports.show');
     Route::post('/reports/{report}/export', ReportExportController::class)->name('reports.export');
+
+    Route::get('/users', AdminUsers::class)->name('users.index');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin,kepala_kelurahan'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('profile.edit');

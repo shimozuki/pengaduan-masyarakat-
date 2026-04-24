@@ -41,11 +41,11 @@ class AdminReports extends Component
 
         if ($this->search !== '') {
             $query->where(function ($q) {
-                $q->where('title', 'like', '%'.$this->search.'%')
-                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                $q->where('title', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%')
                     ->orWhereHas('user', function ($uq) {
-                        $uq->where('name', 'like', '%'.$this->search.'%')
-                            ->orWhere('email', 'like', '%'.$this->search.'%');
+                        $uq->where('name', 'like', '%' . $this->search . '%')
+                            ->orWhere('email', 'like', '%' . $this->search . '%');
                     });
             });
         }
@@ -80,7 +80,7 @@ class AdminReports extends Component
         return view('livewire.admin-reports', [
             'reports' => $reports,
             'categories' => $categories,
-        ])->layout('components.layouts.app', [
+        ])->layout('layouts.app', [
             'title' => 'Kelola Laporan',
         ]);
     }

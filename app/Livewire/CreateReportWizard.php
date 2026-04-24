@@ -46,7 +46,7 @@ class CreateReportWizard extends Component
             'location' => ['nullable', 'string', 'max:255'],
             'priority' => ['nullable', 'in:low,normal,high'],
             'attachments' => ['nullable', 'array', 'max:5'],
-            'attachments.*' => ['image', 'mimes:jpg,jpeg,png', 'max:5120'],
+            'attachments.*' => ['image', 'mimes:jpg,jpeg,png'],
         ];
     }
 
@@ -134,7 +134,7 @@ class CreateReportWizard extends Component
                 'Pelayanan Publik',
                 'Lainnya',
             ],
-        ])->layout('components.layouts.public', [
+        ])->layout('layouts.public', [
             'title' => 'Buat Aduan Baru',
         ]);
     }

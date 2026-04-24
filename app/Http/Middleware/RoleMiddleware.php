@@ -13,7 +13,7 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         $user = $request->user();
 
@@ -21,7 +21,7 @@ class RoleMiddleware
             abort(401);
         }
 
-        if (($user->role ?? null) !== $role) {
+        if (! in_array($user->role ?? null, $roles)) {
             abort(403);
         }
 

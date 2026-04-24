@@ -6,7 +6,7 @@
                 <h1 class="mt-1 text-xl font-semibold text-neutral-900 dark:text-white">{{ $report->title }}</h1>
                 <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">{{ $report->category }} · {{ $report->waktu_pelaporan?->format('d M Y H:i') }}</p>
             </div>
-
+            @if (auth()->user()->role === 'admin')
             <form wire:submit="updateStatus" class="flex w-full flex-col gap-3 md:w-[320px]">
                 <div>
                     <label class="text-xs font-medium text-neutral-600 dark:text-neutral-300">Status</label>
@@ -17,7 +17,7 @@
                         <option value="rejected">rejected</option>
                     </select>
                     @error('status')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -28,10 +28,11 @@
 
                 <div class="text-xs text-neutral-500">
                     @if ($report->resolved_at)
-                        Resolved at: {{ $report->resolved_at->format('d M Y H:i') }}
+                    Resolved at: {{ $report->resolved_at->format('d M Y H:i') }}
                     @endif
                 </div>
             </form>
+            @endif
         </div>
 
         <div class="mt-6 grid gap-6 md:grid-cols-3">
@@ -40,8 +41,8 @@
                 <p class="mt-2 whitespace-pre-line text-sm text-neutral-700 dark:text-neutral-200">{{ $report->description }}</p>
 
                 @if ($report->location)
-                    <h3 class="mt-6 text-sm font-semibold text-neutral-900 dark:text-white">Lokasi</h3>
-                    <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-200">{{ $report->location }}</p>
+                <h3 class="mt-6 text-sm font-semibold text-neutral-900 dark:text-white">Lokasi</h3>
+                <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-200">{{ $report->location }}</p>
                 @endif
             </div>
 
@@ -56,11 +57,11 @@
                 <h2 class="mt-6 text-sm font-semibold text-neutral-900 dark:text-white">Lampiran</h2>
                 <div class="mt-2 grid grid-cols-2 gap-3">
                     @forelse ($report->attachments as $att)
-                        <a href="{{ asset('storage/'.$att->path) }}" target="_blank" class="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800">
-                            <img src="{{ asset('storage/'.$att->path) }}" alt="Attachment" class="h-24 w-full object-cover" />
-                        </a>
+                    <a href="{{ asset('storage/'.$att->path) }}" target="_blank" class="overflow-hidden rounded-xl border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800">
+                        <img src="{{ asset('storage/'.$att->path) }}" alt="Attachment" class="h-24 w-full object-cover" />
+                    </a>
                     @empty
-                        <p class="text-sm text-neutral-600 dark:text-neutral-300">Tidak ada lampiran.</p>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-300">Tidak ada lampiran.</p>
                     @endforelse
                 </div>
             </div>
