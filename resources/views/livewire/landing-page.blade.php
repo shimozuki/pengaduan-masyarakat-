@@ -8,22 +8,22 @@
 
             <nav class="flex items-center gap-3">
                 @auth
-                    <a href="{{ route('my-reports') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100" wire:navigate>
-                        Laporan Saya
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">
-                            Keluar
-                        </button>
-                    </form>
+                <a href="{{ route('my-reports') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100" wire:navigate>
+                    Laporan Saya
+                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100">
+                        Keluar
+                    </button>
+                </form>
                 @else
-                    <a href="{{ route('login') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100" wire:navigate>
-                        Masuk
-                    </a>
-                    <a href="{{ route('register') }}" class="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700" wire:navigate>
-                        Daftar
-                    </a>
+                <a href="{{ route('login') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100" wire:navigate>
+                    Masuk
+                </a>
+                <a href="{{ route('register') }}" class="rounded-lg bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700" wire:navigate>
+                    Daftar
+                </a>
                 @endauth
             </nav>
         </div>
@@ -46,13 +46,13 @@
 
                     <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                         @auth
-                            <a href="{{ route('reports.create') }}" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-600 px-5 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
-                                Laporkan Sekarang
-                            </a>
+                        <a href="{{ route('reports.create') }}" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-600 px-5 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
+                            Laporkan Sekarang
+                        </a>
                         @else
-                            <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-600 px-5 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
-                                Login
-                            </a>
+                        <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-lg bg-brand-600 px-5 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
+                            Login
+                        </a>
                         @endauth
                         <a href="#cara" class="inline-flex h-11 items-center justify-center rounded-lg border border-zinc-200 bg-white px-5 text-sm font-medium text-zinc-900 hover:bg-zinc-50">
                             Cara Kerja
@@ -81,13 +81,82 @@
                             <p class="text-sm font-medium text-zinc-900">Ringkas & Terstruktur</p>
                             <span class="rounded-full bg-brand-50 px-2 py-1 text-xs font-medium text-brand-700">Aman</span>
                         </div>
-                        <div class="mt-4 grid gap-3">
-                            <div class="h-10 rounded-xl bg-zinc-100"></div>
-                            <div class="h-10 rounded-xl bg-zinc-100"></div>
-                            <div class="h-20 rounded-xl bg-zinc-100"></div>
-                            <div class="h-10 rounded-xl bg-zinc-100"></div>
+
+                        @if (session('success'))
+                        <div class="mt-4 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+                            {{ session('success') }}
                         </div>
+                        @endif
+
+                        <div class="mt-4 grid gap-3">
+                            <div>
+                                <input
+                                    type="text"
+                                    wire:model="title"
+                                    placeholder="Judul laporan"
+                                    class="h-10 w-full rounded-xl bg-zinc-100 px-4 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-brand-500" />
+                                @error('title')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <select
+                                    wire:model="category"
+                                    class="h-10 w-full rounded-xl bg-zinc-100 px-4 text-sm text-zinc-400 outline-none focus:ring-2 focus:ring-brand-500">
+                                    <option value="" disabled selected>Pilih kategori</option>
+                                    <option value="Jalan Rusak">Jalan Rusak</option>
+                                    <option value="Sampah">Sampah</option>
+                                    <option value="Lampu Mati">Lampu Mati</option>
+                                    <option value="Banjir">Banjir</option>
+                                    <option value="Fasilitas Umum">Fasilitas Umum</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                                @error('category')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <textarea
+                                    wire:model="description"
+                                    placeholder="Deskripsi masalah yang ingin dilaporkan..."
+                                    class="h-20 w-full resize-none rounded-xl bg-zinc-100 px-4 py-3 text-sm text-zinc-900 placeholder-zinc-400 outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                                @error('description')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label class="flex h-10 cursor-pointer items-center gap-3 rounded-xl bg-zinc-100 px-4 text-sm text-zinc-400 hover:bg-zinc-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                    <span>{{ $photo ? $photo->getClientOriginalName() : 'Upload foto (maks. 5MB)' }}</span>
+                                    <input type="file" wire:model="photo" accept="image/*" class="hidden" />
+                                </label>
+                                @error('photo')
+                                <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
                         <p class="mt-4 text-xs text-zinc-500">Form modern dengan validasi dan preview foto.</p>
+
+                        @auth
+                        <button
+                            wire:click="submit"
+                            wire:loading.attr="disabled"
+                            class="mt-4 flex h-10 w-full items-center justify-center rounded-xl bg-brand-600 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50">
+                            <span wire:loading.remove>Kirim Laporan</span>
+                            <span wire:loading>Mengirim...</span>
+                        </button>
+                        @else
+                        <a href="{{ route('login') }}" wire:navigate
+                            class="mt-4 flex h-10 w-full items-center justify-center rounded-xl bg-brand-600 text-sm font-medium text-white hover:bg-brand-700">
+                            Login untuk melapor
+                        </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -124,43 +193,43 @@
                 </div>
 
                 @auth
-                    <a href="{{ route('reports.create') }}" class="inline-flex h-10 items-center justify-center rounded-xl bg-brand-600 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
-                        Buat Laporan
-                    </a>
+                <a href="{{ route('reports.create') }}" class="inline-flex h-10 items-center justify-center rounded-xl bg-brand-600 px-4 text-sm font-medium text-white shadow-sm hover:bg-brand-700" wire:navigate>
+                    Buat Laporan
+                </a>
                 @endauth
             </div>
 
             <div class="mt-6 grid gap-4 md:grid-cols-3">
                 @forelse (($recentReports ?? []) as $report)
-                    @php
-                        $status = $report->status;
-                        $map = [
-                            'pending' => ['Menunggu', 'bg-amber-50 text-amber-700 border-amber-200'],
-                            'in_progress' => ['Diproses', 'bg-brand-50 text-brand-700 border-brand-200'],
-                            'resolved' => ['Selesai', 'bg-green-50 text-green-700 border-green-200'],
-                            'rejected' => ['Ditolak', 'bg-red-50 text-red-700 border-red-200'],
-                        ];
-                        [$label, $classes] = $map[$status] ?? ['Unknown', 'bg-zinc-50 text-zinc-700 border-zinc-200'];
-                    @endphp
+                @php
+                $status = $report->status;
+                $map = [
+                'pending' => ['Menunggu', 'bg-amber-50 text-amber-700 border-amber-200'],
+                'in_progress' => ['Diproses', 'bg-brand-50 text-brand-700 border-brand-200'],
+                'resolved' => ['Selesai', 'bg-green-50 text-green-700 border-green-200'],
+                'rejected' => ['Ditolak', 'bg-red-50 text-red-700 border-red-200'],
+                ];
+                [$label, $classes] = $map[$status] ?? ['Unknown', 'bg-zinc-50 text-zinc-700 border-zinc-200'];
+                @endphp
 
-                    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-                        <div class="flex items-start justify-between gap-3">
-                            <p class="text-sm font-semibold text-zinc-900 line-clamp-2">{{ $report->title }}</p>
-                            <span class="shrink-0 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium {{ $classes }}">{{ $label }}</span>
-                        </div>
-                        <p class="mt-2 text-sm text-zinc-600">{{ $report->category }} · {{ $report->waktu_pelaporan?->format('d M Y') }}</p>
-                        <p class="mt-3 line-clamp-3 text-sm text-zinc-700">{{ \Illuminate\Support\Str::limit($report->description, 140) }}</p>
-
-                        @if ($report->attachment)
-                            <div class="mt-4 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
-                                <img src="{{ asset('storage/'.$report->attachment) }}" alt="Lampiran" class="h-36 w-full object-cover" loading="lazy" />
-                            </div>
-                        @endif
+                <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+                    <div class="flex items-start justify-between gap-3">
+                        <p class="text-sm font-semibold text-zinc-900 line-clamp-2">{{ $report->title }}</p>
+                        <span class="shrink-0 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium {{ $classes }}">{{ $label }}</span>
                     </div>
+                    <p class="mt-2 text-sm text-zinc-600">{{ $report->category }} · {{ $report->waktu_pelaporan?->format('d M Y') }}</p>
+                    <p class="mt-3 line-clamp-3 text-sm text-zinc-700">{{ \Illuminate\Support\Str::limit($report->description, 140) }}</p>
+
+                    @if ($report->attachment)
+                    <div class="mt-4 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50">
+                        <img src="{{ asset('storage/'.$report->attachment) }}" alt="Lampiran" class="h-36 w-full object-cover" loading="lazy" />
+                    </div>
+                    @endif
+                </div>
                 @empty
-                    <div class="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600 md:col-span-3">
-                        Belum ada laporan.
-                    </div>
+                <div class="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-600 md:col-span-3">
+                    Belum ada laporan.
+                </div>
                 @endforelse
             </div>
         </section>
