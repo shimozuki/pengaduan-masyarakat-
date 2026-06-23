@@ -15,37 +15,41 @@ class AdminUsers extends Component
     public $dateFrom = '';
     public $dateTo = '';
 
+    public $tab = 'masyarakat';
+
     public function render()
     {
-        $query = User::query();
+        if ($this->tab === 'masyarakat') {
 
-        // 🔍 SEARCH
-        if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
-            });
+            $query = User::query()
+                ->with('masyarakat')
+                ->where('role', 'user')
+                ->whereHas('masyarakat');
+
+            if ($this->search) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                });
+            }
+
+            $data = $query->latest()->paginate(10);
+        } else {
+
+            $query = User::query();
+
+            if ($this->search) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                });
+            }
+
+            $data = $query->latest()->paginate(10);
         }
-
-        // 👤 ROLE FILTER
-        if ($this->role) {
-            $query->where('role', $this->role);
-        }
-
-        // 📅 DATE FILTER
-        if ($this->dateFrom) {
-            $query->whereDate('created_at', '>=', $this->dateFrom);
-        }
-
-        if ($this->dateTo) {
-            $query->whereDate('created_at', '<=', $this->dateTo);
-        }
-
-        // ambil data
-        $users = $query->latest()->paginate(10);
 
         return view('livewire.admin-users', [
-            'users' => $users,
+            'users' => $data,
         ])->layout('components.layouts.app', [
             'title' => 'Data Masyarakat',
         ]);

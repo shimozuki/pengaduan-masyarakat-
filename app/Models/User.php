@@ -62,6 +62,11 @@ class User extends Authenticatable
         return in_array($this->role, ['admin', 'kepala_kelurahan']);
     }
 
+    public function masyarakat()
+    {
+        return $this->hasOne(Masyarakat::class);
+    }
+
     /**
      * Get the user's initials
      */

@@ -47,39 +47,39 @@
                 <div class="relative">
                     <div class="absolute left-0 right-0 top-5 h-px bg-zinc-200"></div>
                     @php
-                        $steps = [
-                            1 => 'Aduan',
-                            2 => 'Data Diri',
-                            3 => 'Review',
-                        ];
+                    $steps = [
+                    1 => 'Aduan',
+                    2 => 'Data Diri',
+                    3 => 'Review',
+                    ];
                     @endphp
 
                     <ol class="relative z-10 grid grid-cols-3 gap-2">
                         @foreach ($steps as $num => $label)
-                            <li class="flex items-start justify-center">
-                                <div class="flex flex-col items-center gap-2 text-center">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold
+                        <li class="flex items-start justify-center">
+                            <div class="flex flex-col items-center gap-2 text-center">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-full border text-sm font-semibold
                                         {{ $step === $num ? 'border-brand-600 bg-brand-600 text-white' : ($step > $num ? 'border-brand-600 bg-white text-brand-700' : 'border-zinc-200 bg-white text-zinc-500') }}">
-                                        @if ($step > $num)
-                                            <span aria-hidden="true">✓</span>
-                                        @else
-                                            {{ $num }}
-                                        @endif
-                                    </div>
-                                    <p class="text-sm font-semibold {{ $step >= $num ? 'text-zinc-900' : 'text-zinc-500' }}">{{ $label }}</p>
+                                    @if ($step > $num)
+                                    <span aria-hidden="true">✓</span>
+                                    @else
+                                    {{ $num }}
+                                    @endif
                                 </div>
-                            </li>
+                                <p class="text-sm font-semibold {{ $step >= $num ? 'text-zinc-900' : 'text-zinc-500' }}">{{ $label }}</p>
+                            </div>
+                        </li>
                         @endforeach
                     </ol>
                 </div>
 
                 <div class="mt-4 rounded-xl bg-zinc-50 px-4 py-3 text-sm text-zinc-600">
                     @if ($step === 1)
-                        Tulis aduan dengan jelas, tambahkan lokasi, dan unggah foto jika diperlukan.
+                    Tulis aduan dengan jelas, tambahkan lokasi, dan unggah foto jika diperlukan.
                     @elseif ($step === 2)
-                        Data diri diambil dari akun yang sedang login.
+                    Data diri diambil dari akun yang sedang login.
                     @else
-                        Cek kembali sebelum mengirim. Setelah dikirim, status bisa dipantau di halaman Laporan Saya.
+                    Cek kembali sebelum mengirim. Setelah dikirim, status bisa dipantau di halaman Laporan Saya.
                     @endif
                 </div>
             </div>
@@ -88,22 +88,22 @@
                 <div class="md:col-span-5">
                     <div class="rounded-2xl border border-zinc-200/70 bg-white p-6 shadow-sm">
                         <h2 class="text-lg font-semibold tracking-tight text-zinc-900">
-                        @if ($step === 1)
+                            @if ($step === 1)
                             Informasi Aduan
-                        @elseif ($step === 2)
+                            @elseif ($step === 2)
                             Data Diri
-                        @else
+                            @else
                             Review
-                        @endif
+                            @endif
                         </h2>
                         <p class="mt-2 text-sm leading-6 text-zinc-600">
-                        @if ($step === 1)
+                            @if ($step === 1)
                             Gunakan judul yang spesifik dan deskripsi yang mudah dipahami.
-                        @elseif ($step === 2)
+                            @elseif ($step === 2)
                             Pastikan akun yang digunakan adalah akun yang benar.
-                        @else
+                            @else
                             Pastikan kategori, lokasi, dan lampiran sudah sesuai.
-                        @endif
+                            @endif
                         </p>
 
                         <div class="mt-4 space-y-3 text-sm text-zinc-600">
@@ -121,7 +121,7 @@
 
                 <div class="md:col-span-7">
                     <div class="rounded-2xl border border-zinc-200/70 bg-white p-6 shadow-sm">
-                    @if ($step === 1)
+                        @if ($step === 1)
                         <div class="space-y-5">
                             <div class="grid gap-4 sm:grid-cols-2">
                                 <div class="grid gap-2 sm:col-span-2">
@@ -135,7 +135,7 @@
                                     <select id="category" wire:model.defer="category" class="h-11 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none ring-offset-2 focus:ring-2 focus:ring-brand-600">
                                         <option value="">Pilih kategori</option>
                                         @foreach ($categories as $cat)
-                                            <option value="{{ $cat }}">{{ $cat }}</option>
+                                        <option value="{{ $cat }}">{{ $cat }}</option>
                                         @endforeach
                                     </select>
                                     @error('category')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
@@ -152,7 +152,7 @@
                                 </div>
 
                                 <div class="grid gap-2 sm:col-span-2">
-                                    <label class="text-sm font-medium text-zinc-900" for="location">Lokasi (opsional)</label>
+                                    <label class="text-sm font-medium text-zinc-900" for="location">Lokasi</label>
                                     <input id="location" type="text" wire:model.defer="location" class="h-11 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm outline-none ring-offset-2 focus:ring-2 focus:ring-brand-600" placeholder="Contoh: Jl. Merdeka, RT 02" />
                                     @error('location')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
                                 </div>
@@ -184,16 +184,16 @@
                                 @error('attachments.*')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
 
                                 @if ($attachments)
-                                    <div class="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-3">
-                                        @foreach ($attachments as $i => $photo)
-                                            <div class="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-                                                <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="h-28 w-full object-cover" />
-                                                <button type="button" wire:click="removeAttachment({{ $i }})" class="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-zinc-700 shadow-sm ring-1 ring-zinc-200 hover:bg-white">
-                                                    ×
-                                                </button>
-                                            </div>
-                                        @endforeach
+                                <div class="grid grid-cols-2 gap-3 pt-2 sm:grid-cols-3">
+                                    @foreach ($attachments as $i => $photo)
+                                    <div class="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
+                                        <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="h-28 w-full object-cover" />
+                                        <button type="button" wire:click="removeAttachment({{ $i }})" class="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-zinc-700 shadow-sm ring-1 ring-zinc-200 hover:bg-white">
+                                            ×
+                                        </button>
                                     </div>
+                                    @endforeach
+                                </div>
                                 @endif
                             </div>
 
@@ -203,7 +203,7 @@
                                 </button>
                             </div>
                         </div>
-                    @elseif ($step === 2)
+                        @elseif ($step === 2)
                         <div class="space-y-4">
                             <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
                                 <p class="text-xs font-medium text-zinc-500">Nama</p>
@@ -225,7 +225,7 @@
                                 </button>
                             </div>
                         </div>
-                    @else
+                        @else
                         <div class="space-y-4">
                             <div class="rounded-2xl border border-zinc-200 bg-white p-5">
                                 <p class="text-xs font-medium text-zinc-500">Judul</p>
@@ -257,13 +257,13 @@
                                     <p class="mt-1 text-sm text-zinc-700">{{ is_array($attachments) ? count($attachments) : 0 }} file</p>
 
                                     @if ($attachments)
-                                        <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                                            @foreach ($attachments as $photo)
-                                                <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-                                                    <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="h-24 w-full object-cover" />
-                                                </div>
-                                            @endforeach
+                                    <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                        @foreach ($attachments as $photo)
+                                        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
+                                            <img src="{{ $photo->temporaryUrl() }}" alt="Preview" class="h-24 w-full object-cover" />
                                         </div>
+                                        @endforeach
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -278,7 +278,7 @@
                                 </button>
                             </div>
                         </div>
-                    @endif
+                        @endif
                     </div>
                 </div>
             </div>
