@@ -5,6 +5,8 @@ namespace App\Livewire;
 use App\Models\Report;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReportStatusMail;
 
 class AdminReportView extends Component
 {
@@ -24,6 +26,8 @@ class AdminReportView extends Component
             'status' => ['required', Rule::in(['pending', 'in_progress', 'resolved', 'rejected'])],
         ]);
 
+        $oldStatus = $this->report->status;
+
         $resolvedAt = $this->report->resolved_at;
 
         if ($validated['status'] === 'resolved' && ! $resolvedAt) {
@@ -38,6 +42,9 @@ class AdminReportView extends Component
             'status' => $validated['status'],
             'resolved_at' => $resolvedAt,
         ]);
+
+        Mail::to($this->report->user->email)
+            ->send(new ReportStatusMail($this->report->fresh(), $oldStatus));
 
         $this->dispatch('status-updated');
     }

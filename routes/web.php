@@ -61,13 +61,12 @@ Route::middleware(['auth', 'role:admin,kepala_kelurahan'])->group(function () {
         ->name('two-factor.show');
 });
 
-Route::get('/debug-url', function () {
-    return response()->json([
-        'secure' => request()->secure(),
-        'scheme' => request()->getScheme(),
-        'url' => url('/'),
-        'asset' => asset('test.css'),
-        'vite' => Vite::asset('resources/css/public.css'),
-        'app_url' => config('app.url'),
-    ]);
+Route::get('/test-mail', function () {
+
+    Mail::raw('Ini email percobaan', function ($message) {
+        $message->to('EMAIL_TUJUAN@gmail.com')
+            ->subject('Tes Email');
+    });
+
+    return 'Selesai';
 });
